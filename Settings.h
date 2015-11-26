@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Global.h"
+
 struct UserSettings {
    byte bypassDisplay;
    byte firstBootDone; // value > 0 means first boot done
@@ -32,6 +34,17 @@ void Settings::init()
 
 void Settings::save(struct UserSettings *settings)
 {
+#ifdef DEBUG
+   Serial.println("Settings");
+   Serial.println("--------");
+   Serial.print("bypassDisplay: ");
+   Serial.println(m_userSettings.bypassDisplay);
+   Serial.print("firstBootDone: ");
+   Serial.println(m_userSettings.firstBootDone);
+   Serial.print("baudRate: ");
+   Serial.println(m_userSettings.baudRate);
+#endif
+
    eeprom_write_block((const void*)settings, (void*)0, sizeof(m_userSettings));
 }
 

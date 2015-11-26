@@ -1,13 +1,13 @@
 #include <avr/wdt.h>
 #include <EEPROM.h>
-#include <Message.h>
 #include <CANBus.h>
+#include <Message.h>
 #include <QueueArray.h>
+
+#include "Global.h"
 #include "Settings.h"
 #include "DisplayManager.h"
 #include "BMWWheelButton.h"
-
-//#define DEBUG
 
 #define BOOT_LED 13
 #define DISPLAY_PIN 8

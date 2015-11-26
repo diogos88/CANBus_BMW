@@ -14,7 +14,7 @@ public:
    void commandHandler(byte* bytes, int length);
 
    void toggleDisplay();
-   void switchToDefault(unsigned long duration);
+   void switchToBMWDisplay(unsigned long duration);
 
 private:
    int m_displayPin;
@@ -52,7 +52,7 @@ void DisplayManager::toggleDisplay()
    setDisplay();
 }
 
-void DisplayManager::switchToDefault(unsigned long duration)
+void DisplayManager::switchToBMWDisplay(unsigned long duration)
 {
    digitalWrite(m_displayPin, BMW_DISPLAY);
    m_forceDurationOverTimer = millis() + duration;

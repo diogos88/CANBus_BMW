@@ -17,7 +17,6 @@ private:
 
    bool m_btn001Pressed;
    bool m_btn002Pressed;
-   unsigned int m_toggleDisplayEnabled;
 };
 
 BMWWheelButton::BMWWheelButton(DisplayManager *display)
@@ -26,23 +25,41 @@ BMWWheelButton::BMWWheelButton(DisplayManager *display)
 
    m_btn001Pressed = false;
    m_btn002Pressed = false;
-   m_toggleDisplayEnabled = true;
 }
 
 Message BMWWheelButton::process(Message msg)
 {
+   bool statusChanged = false;
+
    // TODO
-   //    Process can message
+   /*
+   Process can message
+   -------------------
+   if can.message == btn001.code
+      bool pressed = can.message.value
+      if m_btn001Pressed != pressed
+         m_btn001Pressed = pressed
+         statusChanged = true
 
-   if (m_btn001Pressed && m_btn002Pressed)
-   {
-      m_display->toggleDisplay();
-      m_toggleDisplayEnabled = false;
-   }
+    if can.message == btn002.code
+       bool pressed = can.message.value
+       if m_btn002Pressed != pressed
+         m_btn002Pressed = pressed
+         statusChanged = true
+   */
 
-   if (!m_btn001Pressed && !m_btn002Pressed)
+   if (statusChanged)
    {
-      m_toggleDisplayEnabled = true;
+#ifdef DEBUG
+      Serial.println("Button status changed");
+      Serial.print("Button 1 : ");
+      Serial.println((m_btn001Pressed == 0) ? "false" : "true");
+      Serial.print("Button 2 : ");
+      Serial.println((m_btn002Pressed == 0) ? "false" : "true");
+#endif
+
+      if (m_btn001Pressed && m_btn002Pressed)
+         m_display->toggleDisplay();
    }
 
    return msg;
