@@ -65,4 +65,6 @@ void DisplayManager::setDisplay()
       digitalWrite(m_displayPin, HDMI_DISPLAY);
    else
       digitalWrite(m_displayPin, BMW_DISPLAY);
+
+   m_forceBMWDisplay = false;
 }
