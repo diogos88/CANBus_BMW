@@ -1,5 +1,5 @@
 #pragma once
-class Shared
+class Global
 {
 #define DEBUG
 };
