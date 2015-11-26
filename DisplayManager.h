@@ -40,15 +40,16 @@ void DisplayManager::commandHandler(byte* bytes, int length) {}
 void DisplayManager::tick()
 {
    if (m_forceBMWDisplay && m_forceDurationOverTimer < millis())
-   {
       setDisplay();
-      m_forceBMWDisplay = false;
-   }
 }
 
 void DisplayManager::toggleDisplay()
 {
-   Settings::setBypassDisplay(!Settings::getBypassDisplay());
+   if (Settings::getBypassDisplay() == 0)
+      Settings::setBypassDisplay(1);
+   else
+      Settings::setBypassDisplay(0);
+   
    setDisplay();
 }
 

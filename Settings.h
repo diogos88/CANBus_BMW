@@ -15,8 +15,8 @@ public:
 
    static void init();
    static int getBaudRate();
-   static void setBypassDisplay(bool value);
-   static bool getBypassDisplay();
+   static void setBypassDisplay(byte value);
+   static byte getBypassDisplay();
 
 private:
    static void save(struct UserSettings *settings);
@@ -48,13 +48,13 @@ void Settings::save(struct UserSettings *settings)
    eeprom_write_block((const void*)settings, (void*)0, sizeof(m_userSettings));
 }
 
-void Settings::setBypassDisplay(bool value)
+void Settings::setBypassDisplay(byte value)
 {
    m_userSettings.bypassDisplay = value;
    save(&m_userSettings);
 }
 
-bool Settings::getBypassDisplay()
+byte Settings::getBypassDisplay()
 {
    return m_userSettings.bypassDisplay;
 }
