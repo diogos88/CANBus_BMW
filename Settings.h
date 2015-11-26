@@ -1,8 +1,8 @@
 #pragma once
 
 struct UserSettings {
-   bool bypassDisplay;
-   bool firstBootCompleted;
+   byte bypassDisplay;
+   byte firstBootDone; // value > 0 means first boot done
    int baudRate;
 } m_userSettings;
 
@@ -26,7 +26,7 @@ void Settings::init()
 {
    memset(&m_userSettings, 0, sizeof(m_userSettings));
    eeprom_read_block((void*)&m_userSettings, (void*)0, sizeof(m_userSettings));
-   if (!m_userSettings.firstBootCompleted)
+   if (m_userSettings.firstBootDone == 0)
       Settings::firstbootSetup();
 }
 
@@ -62,9 +62,9 @@ void Settings::firstbootSetup()
    Settings::clear();
 
    struct UserSettings userSettings = {
-      false, //bypassDisplay
-      true, //firstBootCompleted
-      125 //baudRate
+      0, //bypassDisplay
+      1, //firstBootDone
+      500 //baudRate
    };
 
    Settings::save(&userSettings);

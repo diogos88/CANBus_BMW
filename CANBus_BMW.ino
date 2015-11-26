@@ -7,6 +7,8 @@
 #include "DisplayManager.h"
 #include "BMWWheelButton.h"
 
+//#define DEBUG
+
 #define BOOT_LED 13
 #define DISPLAY_PIN 8
 
@@ -24,14 +26,14 @@ int activeMiddlewareLength = (int)(sizeof(activeMiddleware) / sizeof(activeMiddl
 
 void setup()
 {
+   Serial.begin(115200); // USB
+
    Settings::init();
    delay(1);
 
-   Serial.begin(115200); // USB
-
    Serial.print("Baud rate = ");
    Serial.println(m_userSettings.baudRate);
-   
+
    pinMode(BOOT_LED, OUTPUT);
 
    pinMode(3 /*CAN1INT_D*/, INPUT);
@@ -66,6 +68,12 @@ void loop()
    if (digitalRead(3/*CAN1INT_D*/) == 0)
       readBus(m_CANBus);
 
+#ifdef DEBUG
+   Serial.print(millis());
+   Serial.print(" - Number of messages in read queue : ");
+   Serial.println(m_readQueue.count());
+#endif
+
    // Process CAN messages
    if (!m_readQueue.isEmpty())
    {
@@ -76,6 +84,12 @@ void loop()
       if (msg.dispatch && !m_writeQueue.isFull())
          m_writeQueue.push(msg);
    }
+
+#ifdef DEBUG
+   Serial.print(millis());
+   Serial.print(" - Number of messages in write queue : ");
+   Serial.println(m_writeQueue.count());
+#endif
 
    // Release CAN messages
    boolean error = false;
